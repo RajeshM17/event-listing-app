@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
-import {Col,Row} from 'react-bootstrap';
-import Home from './Home';
-import axios from 'axios';
+import {Col,Row,Button} from 'react-bootstrap';
+import {Link} from 'react-router-dom'
+// import Home from './Home';
+// import axios from 'axios';
 import fetchData from './fetchData';
-import ControlledTabs from './Tabs'
+// import ControlledTabs from './Tabs'
 const url="https://allevents.s3.amazonaws.com/tests/categories.json"
 class Menu extends Component {
     
     constructor(props){
+        // console.log(props);
         super(props);
+      
         this.state={
             products:[]
         }
@@ -16,7 +19,7 @@ class Menu extends Component {
 
     async componentDidMount(){
         const products = await fetchData(url);
-        console.log(products.data);
+        // console.log(products.data);
         this.setState({products:products.data});
     }   
     
@@ -24,10 +27,10 @@ class Menu extends Component {
     render() {
         const products = this.state.products.map((product)=>{
             return (<Col>
-                    <ControlledTabs 
-                        category={product.category}
-                        data={product.data}
-                        />
+          
+                    <Link to={`/menu/${product.category}`}>
+                    <Button onClick={this.props.onClickHandler} value={product.data}>{product.category}</Button>
+                    </Link>
                 </Col>)
         })
 
